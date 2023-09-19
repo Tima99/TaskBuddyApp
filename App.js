@@ -16,6 +16,7 @@ const Stack = createStackNavigator();
 const App = () => {
     const [fontsLoaded] = useFonts({
         Andika: require("./assets/fonts/Andika-Regular.ttf"),
+        AndikaBold: require("./assets/fonts/Andika-Bold.ttf"),
     });
     const [initialRouteName, setInitialRouteName] = useState(null); // track user already logged in or not
 
