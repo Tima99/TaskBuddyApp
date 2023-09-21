@@ -3,6 +3,8 @@ import {
     StyleSheet,
     KeyboardAvoidingView,
     Platform,
+    View,
+    Text
 } from "react-native";
 import CapsuleButton from "../../components/CapsuleButton";
 import SoftInput from "../../components/SoftInput";
@@ -44,6 +46,10 @@ const LoginScreen = ({ navigation }) => {
             behavior={Platform.OS === "ios" ? "padding" : null} // Use null for Android
         >
 
+            <View >
+                <Text style={{fontFamily: "Andika", fontSize: 26, textAlign: "center"}}>👋Welcome to TaskBuddy</Text>
+            </View>
+
             <Error>{error}</Error>
 
             <SoftInput
@@ -61,6 +67,7 @@ const LoginScreen = ({ navigation }) => {
             <CapsuleButton onPress={handleClick} loading={loading}>
                 Continue with Email
             </CapsuleButton>
+            
         </KeyboardAvoidingView>
     );
 };
@@ -69,6 +76,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+        justifyContent: "center"
     },
     inputContainer: {
         marginBottom: 10,

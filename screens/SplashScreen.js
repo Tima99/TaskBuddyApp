@@ -2,19 +2,18 @@
 import React, { useEffect } from "react";
 import { View, Image, StyleSheet, Text } from "react-native";
 // import { useNavigation } from '@react-navigation/native';
-import LottieView from "lottie-react-native";
+import LottieAnim from "../components/LottieAnim";
 
 const SplashScreen = () => {
     return (
         <View style={styles.container}>
-            <LottieView
+            <LottieAnim
                 source={require("../assets/anim-icons/buddy_splash_icon.json")} // Replace with your animation file
                 autoPlay
                 loop
                 speed={1}
                 style={styles.animation}
             />
-            {/* <Text style={{ fontSize: 32 }}>Loading...</Text> */}
         </View>
     );
 };

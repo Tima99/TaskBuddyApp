@@ -9,7 +9,9 @@ import SplashScreen from "./screens/SplashScreen";
 import TabNavigator from "./components/TabNavigator";
 import STORE from "./constants";
 import { LoadingProvider } from "./context/LoadingContext";
+import { CredentailsProvider } from "./context/CredentialsContext";
 import AuthRoutes from "./routes/AuthRoutes";
+import HomeScreen from "./screens/HomeScreen";
 
 const Stack = createStackNavigator();
 
@@ -26,13 +28,14 @@ const App = () => {
                 const access_token = await SecureStore.getItemAsync(
                     STORE.ACCESS_TOKEN
                 );
+
                 if (!access_token)
                     return setInitialRouteName("LoginHomeScreen");
 
-                setInitialRouteName("TabNavigator");
+                setInitialRouteName({name: "TabNavigator", data: access_token});
             } catch (error) {
                 console.log(error);
-                setInitialRouteName("LoginHomeScreen");
+                setInitialRouteName({name: "AuthRoutes"});
             }
         })();
     }, []);
@@ -45,8 +48,9 @@ const App = () => {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <LoadingProvider>
+            <CredentailsProvider>
                 <NavigationContainer>
-                    <Stack.Navigator initialRouteName={initialRouteName}>
+                    <Stack.Navigator initialRouteName={initialRouteName.name}>
                         {/* Auth or Entry Routes */}
                         <Stack.Screen
                             name="AuthRoutes"
@@ -59,9 +63,18 @@ const App = () => {
                             name="TabNavigator"
                             component={TabNavigator}
                             options={{ headerShown: false }}
+                            initialParams={{ access_token : initialRouteName.data }}
                         />
+                        
+                        <Stack.Screen
+                            name="Home"
+                            component={HomeScreen}
+                            options={{ headerShown: false }}
+                        />
+
                     </Stack.Navigator>
                 </NavigationContainer>
+            </ CredentailsProvider>
             </LoadingProvider>
         </SafeAreaView>
     );

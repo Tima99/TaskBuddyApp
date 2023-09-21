@@ -5,7 +5,7 @@ import {
     StyleSheet,
     ActivityIndicator,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons"; // You may need to install the Expo vector icons package
+import { FontAwesome } from "@expo/vector-icons"; // You may need to install the Expo vector icons package
 
 function CircleButtonWithArrow({ onPress, loading }) {
     const btnColor = { backgroundColor: loading ? "#67b0ff" : "#007BFF" };
@@ -13,7 +13,7 @@ function CircleButtonWithArrow({ onPress, loading }) {
     return (
         <TouchableOpacity
             onPress={onPress}
-            style={{...styles.circleButton, ...btnColor}}
+            style={{ ...styles.circleButton, ...btnColor }}
             activeOpacity={0.5}
             disabled={loading}
         >
@@ -25,7 +25,7 @@ function CircleButtonWithArrow({ onPress, loading }) {
                     animating={true}
                 />
             ) : (
-                <Ionicons name="md-arrow-forward" size={32} color="white" />
+                <FontAwesome name="arrow-right" size={24} color="white" />
             )}
         </TouchableOpacity>
     );

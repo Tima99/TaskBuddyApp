@@ -1,206 +1,38 @@
-import React from 'react';
-import { View, ScrollView, Text, StyleSheet } from 'react-native';
+import React, { useEffect } from "react";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+
+import { useLoadingTodos } from "../context/LoadingTaskContext";
+import * as SecureStore from "expo-secure-store";
+import STORE from "../constants";
+import PendingTasksScreen from "./TaskStatus/PendingTaskScreen";
+import CompletedTasksScreen from "./TaskStatus/CompletedTaskScreen";
+
+const Tab = createMaterialTopTabNavigator();
 
 const HomeScreen = () => {
-  return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to the Home Screen</Text>
-        <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id
-          urna in tortor vestibulum scelerisque sit amet sit amet libero. Nam
-          eleifend euismod ligula, et tempor lectus tincidunt vel.
-        </Text>
-        {/* Add more content here */}
-      </View>
-    </ScrollView>
-  );
+    const { setTodos } = useLoadingTodos();
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const added_todos = await SecureStore.getItemAsync(
+                    STORE.TODO_LIST
+                );
+                if (!added_todos) throw new Error("");
+                setTodos((prev) => JSON.parse(added_todos));
+            } catch (error) {
+                setTodos([]);
+            }
+        })();
+    }, []);
+
+    return (
+        <Tab.Navigator initialRouteName="Pending">
+            <Tab.Screen name="Pending" component={PendingTasksScreen} />
+            <Tab.Screen name="Completed" component={CompletedTasksScreen} />
+        </Tab.Navigator>
+    );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  paragraph: {
-    fontSize: 16,
-    lineHeight: 24,
-  },
-});
 
 export default HomeScreen;

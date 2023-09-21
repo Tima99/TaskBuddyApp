@@ -33,7 +33,8 @@ const LoginCredentials = ({ route, navigation }) => {
                         // save tokens to expo-secure-store once status is 200 or ok ( data.acess_token and data.refresh_token )
                         await SecureStore.setItemAsync(STORE.REFRESH_TOKEN, data.refresh_token);
                         await SecureStore.setItemAsync(STORE.ACCESS_TOKEN, data.access_token);
-                        
+                        // empty password
+                        setPassword("")
                         // after store secure keys - navigate user to Home
                         navigation.navigate("TabNavigator")
                     } catch (error) {
@@ -75,7 +76,7 @@ const LoginCredentials = ({ route, navigation }) => {
                     onPress: handleResetPassword,
                 } : {}}
                 icon={<FontAwesome name="lock" />}
-
+                value={password}
             />
 
             <CapsuleButton onPress={handleClick} loading={loading && !isResetModalVisible} >

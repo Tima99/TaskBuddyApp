@@ -1,11 +1,10 @@
-import React from "react";
-import { Image, Alert } from "react-native";
+import React, { useEffect } from "react";
+import { Image, Alert, KeyboardAvoidingView } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { FontAwesome5 , Ionicons } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 
 import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
-import LogoImage from "../assets/icon.png";
 import Anchor from "./Anchor";
 import req from "../api/req";
 
@@ -16,11 +15,25 @@ import { useLoading } from "../context/LoadingContext";
 import LoadingScreen from "../components/LoadingScreen";
 import LottieView from "lottie-react-native";
 import AddTaskScreen from "../screens/AddTaskScreen";
+import {
+    LoadingProvider,
+} from "../context/LoadingTaskContext";
+import { useCredentials } from "../context/CredentialsContext";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 const Tab = createBottomTabNavigator();
+const TopTab = createMaterialTopTabNavigator();
 
-const TabNavigator = ({ navigation }) => {
+
+
+const TabNavigator = ({ navigation, route }) => {
     const { isLoading, showLoading, hideLoading } = useLoading();
+    const { access_token } = route.params;
+    const { setToken } = useCredentials()
+
+    useEffect(() => {
+        setToken(access_token)
+    }, [])
 
     const logoutHandler = async () => {
         // Display a confirmation dialog
@@ -41,7 +54,7 @@ const TabNavigator = ({ navigation }) => {
                                     STORE.REFRESH_TOKEN
                                 );
                             if (!refresh_token)
-                                return navigation.navigate("LoginHomeScreen");
+                                return navigation.navigate("AuthRoutes");
 
                             showLoading();
 
@@ -65,7 +78,7 @@ const TabNavigator = ({ navigation }) => {
 
                             hideLoading();
                             // Redirect to the login screen or perform other actions
-                            navigation.navigate("LoginHomeScreen"); // Uncomment if you want to redirect
+                            navigation.navigate("AuthRoutes"); // Uncomment if you want to redirect
                         } catch (err) {
                             hideLoading();
                             // Handle errors gracefully
@@ -84,74 +97,95 @@ const TabNavigator = ({ navigation }) => {
     };
 
     return (
-        <>
-            <Tab.Navigator
-                initialRouteName="Tasks"
-                screenOptions={({ route }) => ({
-                    tabBarIcon: ({ color, size }) => {
-                        let iconName;
-
-                        if (route.name === "Tasks") {
-                            iconName = "tasks";
-                        } else if (route.name === "Profile") {
-                            iconName = "user-alt";
-                        }else if ( route.name === "Add"){
-                            return  <Ionicons name="add-circle-sharp" size={26} color={color} />
-                        }
-
-                        // Customize icon style here
-                        return (
-                            <FontAwesome5
-                                name={iconName}
-                                color={color}
-                                size={23}
-                            />
-                        );
-                    },
-                    headerTitle: "TaskBuddy", // Set your app name as the header title
-                    headerTitleStyle: {fontFamily: "AndikaBold", transform: [{translateX: -7}]},
-                    headerTitleAlign: "left", // Align the header title to the left
-                    headerLeft: () => (
-                        <LottieView
-                            source={require("../assets/anim-icons/buddy_splash_icon.json")} // Replace with your animation file
-                            autoPlay
-                            loop
-                            speed={1}
-                            style={{width: 53, transform: [{translateX: 2}, {translateY: -2}]}}
-                        />
-                    ),
-                    headerRight: () => (
-                        <Anchor
-                            onPress={logoutHandler}
-                            design={{ marginRight: 10 }}
-                        >
-                            {" "}
-                            Logout{" "}
-                        </Anchor>
-                    ),
-                    tabBarLabel: "",
-                    tabBarActiveTintColor: "blue",
-                    tabBarInactiveTintColor: "grey",
-                    tabBarLabelStyle: {
-                        fontSize: 9,
-                        fontWeight: "bold",
-                        display: "none"
-                    },
-                    tabBarStyle: {
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "white",
-                        height: 50,
-                    },
-                })}
+        <LoadingProvider>
+            <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior="height" // or "height" or "position"
+                enabled={false}
             >
-                <Tab.Screen name="Tasks" component={HomeScreen} />
-                <Tab.Screen name="Add" component={AddTaskScreen} />
-                <Tab.Screen name="Profile" component={ProfileScreen} />
-            </Tab.Navigator>
+                <Tab.Navigator
+                    initialRouteName="Add"
+                    screenOptions={({ route }) => ({
+                        tabBarIcon: ({ color, size }) => {
+                            let iconName;
 
-            {isLoading ? <LoadingScreen /> : null}
-        </>
+                            if (route.name === "Tasks") {
+                                iconName = "tasks";
+                            } else if (route.name === "Profile") {
+                                iconName = "user-alt";
+                            } else if (route.name === "Add") {
+                                return (
+                                    <Ionicons
+                                        name="add-circle-sharp"
+                                        size={26}
+                                        color={color}
+                                    />
+                                );
+                            }
+
+                            // Customize icon style here
+                            return (
+                                <FontAwesome5
+                                    name={iconName}
+                                    color={color}
+                                    size={23}
+                                />
+                            );
+                        },
+                        headerTitle: "TaskBuddy", // Set your app name as the header title
+                        headerTitleStyle: {
+                            fontFamily: "AndikaBold",
+                            transform: [{ translateX: -7 }],
+                        },
+                        headerTitleAlign: "left", // Align the header title to the left
+                        headerLeft: () => (
+                            <LottieView
+                                source={require("../assets/anim-icons/buddy_splash_icon.json")} // Replace with your animation file
+                                autoPlay
+                                loop
+                                speed={1}
+                                style={{
+                                    width: 53,
+                                    transform: [
+                                        { translateX: 2 },
+                                        { translateY: -2 },
+                                    ],
+                                }}
+                            />
+                        ),
+                        headerRight: () => (
+                            <Anchor
+                                onPress={logoutHandler}
+                                design={{ marginRight: 10 }}
+                            >
+                                {" "}
+                                Logout{" "}
+                            </Anchor>
+                        ),
+                        tabBarLabel: "",
+                        tabBarActiveTintColor: "blue",
+                        tabBarInactiveTintColor: "grey",
+                        tabBarLabelStyle: {
+                            fontSize: 9,
+                            fontWeight: "bold",
+                            display: "none",
+                        },
+                        tabBarStyle: {
+                            justifyContent: "center",
+                            alignItems: "center",
+                            backgroundColor: "white",
+                            height: 50,
+                        },
+                    })}
+                >
+                    <TopTab.Screen name="Tasks" component={HomeScreen} />
+                    <Tab.Screen name="Add" component={AddTaskScreen} />
+                    <Tab.Screen name="Profile" component={ProfileScreen} />
+                </Tab.Navigator>
+
+                {isLoading ? <LoadingScreen /> : null}
+            </KeyboardAvoidingView>
+        </LoadingProvider>
     );
 };
 
