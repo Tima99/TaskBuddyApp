@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an instance of Axios with custom configuration
 const instance = axios.create({
-  baseURL: process.env.API_URL, // Your API base URL
+  baseURL: "https://score-roster.onrender.com/api", // Your API base URL
   timeout: 5000, // Timeout for requests (adjust as needed)
 });
 
