@@ -36,7 +36,12 @@ const LoginCredentials = ({ route, navigation }) => {
                         // empty password
                         setPassword("")
                         // after store secure keys - navigate user to Home
-                        navigation.navigate("TabNavigator")
+                        navigation.navigate({
+                            name: 'TabNavigator',
+                            state: {
+                              routes: [{ name: 'TabNavigator' }], 
+                            }
+                          })
                     } catch (error) {
                         return Promise.reject(error)
                     }

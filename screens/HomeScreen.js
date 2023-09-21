@@ -27,8 +27,8 @@ const HomeScreen = () => {
     }, []);
 
     return (
-        <Tab.Navigator initialRouteName="Pending">
-            <Tab.Screen name="Pending" component={PendingTasksScreen} />
+        <Tab.Navigator backBehavior="none">
+            <Tab.Screen name="Pending" component={PendingTasksScreen}  />
             <Tab.Screen name="Completed" component={CompletedTasksScreen} />
         </Tab.Navigator>
     );

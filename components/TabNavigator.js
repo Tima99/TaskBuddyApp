@@ -19,12 +19,9 @@ import {
     LoadingProvider,
 } from "../context/LoadingTaskContext";
 import { useCredentials } from "../context/CredentialsContext";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { CommonActions } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
-const TopTab = createMaterialTopTabNavigator();
-
-
 
 const TabNavigator = ({ navigation, route }) => {
     const { isLoading, showLoading, hideLoading } = useLoading();
@@ -54,7 +51,12 @@ const TabNavigator = ({ navigation, route }) => {
                                     STORE.REFRESH_TOKEN
                                 );
                             if (!refresh_token)
-                                return navigation.navigate("AuthRoutes");
+                                return navigation.dispatch(
+                                    CommonActions.reset({
+                                      index: 0,
+                                      routes: [{ name: 'AuthRoutes' }],
+                                    })
+                                );
 
                             showLoading();
 
@@ -78,7 +80,12 @@ const TabNavigator = ({ navigation, route }) => {
 
                             hideLoading();
                             // Redirect to the login screen or perform other actions
-                            navigation.navigate("AuthRoutes"); // Uncomment if you want to redirect
+                            navigation.dispatch(
+                                CommonActions.reset({
+                                  index: 0,
+                                  routes: [{ name: 'AuthRoutes' }],
+                                })
+                            );
                         } catch (err) {
                             hideLoading();
                             // Handle errors gracefully
@@ -104,6 +111,7 @@ const TabNavigator = ({ navigation, route }) => {
                 enabled={false}
             >
                 <Tab.Navigator
+                    backBehavior="none"
                     initialRouteName="Add"
                     screenOptions={({ route }) => ({
                         tabBarIcon: ({ color, size }) => {
@@ -178,7 +186,7 @@ const TabNavigator = ({ navigation, route }) => {
                         },
                     })}
                 >
-                    <TopTab.Screen name="Tasks" component={HomeScreen} />
+                    <Tab.Screen name="Tasks" component={HomeScreen} />
                     <Tab.Screen name="Add" component={AddTaskScreen} />
                     <Tab.Screen name="Profile" component={ProfileScreen} />
                 </Tab.Navigator>

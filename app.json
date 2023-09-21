@@ -8,9 +8,9 @@
         "userInterfaceStyle": "light",
         "fastRefresh": true,
         "permissions": ["INTERNET"],
-
         "splash": {
-            "image": "./assets/splash.png",
+            "assetExts": ["jpg", "jpeg", "png", "gif", "bmp", "tiff", "json"],
+            "image": "./assets/anim-icons/buddy_splash_icon.json",
             "resizeMode": "contain",
             "backgroundColor": "#ffffff"
         },
