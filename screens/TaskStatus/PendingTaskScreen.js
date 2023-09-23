@@ -5,19 +5,13 @@ import TaskCard from "../../components/TaskCard";
 import * as SecureStore from "expo-secure-store";
 import STORE from "../../constants";
 import IsTaskEmpty from "../../shared/IsTaskEmpty";
-import { useCount } from "../../context/CompeleteTask";
 
 const PendingTasksScreen = () => {
     const { todos, setTodos } = useLoadingTodos();
     const [ openForDelete, setOpenForDelete] = useState(null)
-    const { setCompleteTaskCount } = useCount()
-
+    
     // Filter pending tasks based on your criteria
     const pendingTasks = useMemo(() =>  todos.filter((task) => !task.isCompleted), [todos])
-
-    useEffect(() => {
-      setCompleteTaskCount(todos.length - pendingTasks.length)
-    }, [pendingTasks])
 
     async function DeleteTask(index){
         // index is index of deleted task
