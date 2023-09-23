@@ -27,9 +27,12 @@ const PendingTasksScreen = () => {
     async function CompleteTask(index){
         try {
           if(index < 0) throw new Error("index is undefined")
-          const tasks = [...todos]
-          tasks[index].isCompleted = true 
-      
+          const tasks = todos.map((todo) => {
+            if(todo.id == pendingTasks[index].id)
+              todo.isCompleted = true
+            return todo
+          })
+          
           setTodos([...tasks])
           await SecureStore.setItemAsync(STORE.TODO_LIST, JSON.stringify(tasks))
         } catch (error) {

@@ -112,7 +112,7 @@ const TabNavigator = ({ navigation, route }) => {
             >
                 <Tab.Navigator
                     backBehavior="none"
-                    initialRouteName="Add"
+                    initialRouteName="Tasks"
                     screenOptions={({ route }) => ({
                         tabBarIcon: ({ color, size }) => {
                             let iconName;

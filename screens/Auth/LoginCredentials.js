@@ -15,6 +15,7 @@ import * as SecureStore from 'expo-secure-store';
 import { FontAwesome } from '@expo/vector-icons';
 import STORE from "../../constants"
 import passwordValidator from "../../utils/passwordValidation";
+import { CommonActions } from "@react-navigation/native";
 
 const LoginCredentials = ({ route, navigation }) => {
     const { email, hasPassword } = route.params;
@@ -36,12 +37,12 @@ const LoginCredentials = ({ route, navigation }) => {
                         // empty password
                         setPassword("")
                         // after store secure keys - navigate user to Home
-                        navigation.navigate({
-                            name: 'TabNavigator',
-                            state: {
-                              routes: [{ name: 'TabNavigator' }], 
-                            }
-                          })
+                        navigation.dispatch(
+                            CommonActions.reset({
+                              index: 0,
+                              routes: [{ name: 'TabNavigator' }],
+                            })
+                        );
                     } catch (error) {
                         return Promise.reject(error)
                     }

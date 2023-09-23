@@ -12,6 +12,7 @@ import { LoadingProvider } from "./context/LoadingContext";
 import { CredentailsProvider } from "./context/CredentialsContext";
 import AuthRoutes from "./routes/AuthRoutes";
 import HomeScreen from "./screens/HomeScreen";
+import AppErrorBoundary from "./components/ErrorBoundary";
 
 const Stack = createStackNavigator();
 
@@ -32,50 +33,57 @@ const App = () => {
                 if (!access_token)
                     return setInitialRouteName("LoginHomeScreen");
 
-                setInitialRouteName({name: "TabNavigator", data: access_token});
+                setInitialRouteName({
+                    name: "TabNavigator",
+                    data: access_token,
+                });
             } catch (error) {
                 console.log(error);
-                setInitialRouteName({name: "AuthRoutes"});
+                setInitialRouteName({ name: "AuthRoutes" });
             }
         })();
     }, []);
 
     if (!(fontsLoaded && initialRouteName)) {
-        return <SplashScreen />;
+        return <AppErrorBoundary><SplashScreen /></AppErrorBoundary>;
     }
 
-    
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <LoadingProvider>
-            <CredentailsProvider>
-                <NavigationContainer>
-                    <Stack.Navigator initialRouteName={initialRouteName.name}>
-                        {/* Auth or Entry Routes */}
-                        <Stack.Screen
-                            name="AuthRoutes"
-                            component={AuthRoutes}
-                            options={{ headerShown: false }}
-                        />
+            <AppErrorBoundary>
+                <LoadingProvider>
+                    <CredentailsProvider>
+                        <NavigationContainer>
+                            <Stack.Navigator
+                                initialRouteName={initialRouteName.name}
+                            >
+                                {/* Auth or Entry Routes */}
+                                <Stack.Screen
+                                    name="AuthRoutes"
+                                    component={AuthRoutes}
+                                    options={{ headerShown: false }}
+                                />
 
-                        {/* Home Routes */}
-                        <Stack.Screen
-                            name="TabNavigator"
-                            component={TabNavigator}
-                            options={{ headerShown: false }}
-                            initialParams={{ access_token : initialRouteName.data }}
-                        />
-                        
-                        <Stack.Screen
-                            name="Home"
-                            component={HomeScreen}
-                            options={{ headerShown: false }}
-                        />
+                                {/* Home Routes */}
+                                <Stack.Screen
+                                    name="TabNavigator"
+                                    component={TabNavigator}
+                                    options={{ headerShown: false }}
+                                    initialParams={{
+                                        access_token: initialRouteName.data,
+                                    }}
+                                />
 
-                    </Stack.Navigator>
-                </NavigationContainer>
-            </ CredentailsProvider>
-            </LoadingProvider>
+                                <Stack.Screen
+                                    name="Home"
+                                    component={HomeScreen}
+                                    options={{ headerShown: false }}
+                                />
+                            </Stack.Navigator>
+                        </NavigationContainer>
+                    </CredentailsProvider>
+                </LoadingProvider>
+            </AppErrorBoundary>
         </SafeAreaView>
     );
 };

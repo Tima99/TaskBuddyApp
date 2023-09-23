@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-// import CheckBox from "@react-native-community/checkbox";
-// import DateTimePicker from "@react-native-datetimepicker";
-// import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 const TaskDueDateInput = ({ onComplete }) => {

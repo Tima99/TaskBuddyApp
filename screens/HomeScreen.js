@@ -18,10 +18,10 @@ const HomeScreen = () => {
                 const added_todos = await SecureStore.getItemAsync(
                     STORE.TODO_LIST
                 );
-                if (!added_todos) throw new Error("");
+                if (!added_todos) return setTodos([]);;
                 setTodos((prev) => JSON.parse(added_todos));
             } catch (error) {
-                setTodos([]);
+                console.log(error)
             }
         })();
     }, []);

@@ -1,51 +1,31 @@
 {
-    "expo": {
-        "name": "score-roster",
-        "slug": "score-roster",
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "icon": "./assets/icon.png",
-        "userInterfaceStyle": "light",
-        "fastRefresh": true,
-        "permissions": ["INTERNET"],
-        "splash": {
-            "assetExts": ["jpg", "jpeg", "png", "gif", "bmp", "tiff", "json"],
-            "image": "./assets/anim-icons/buddy_splash_icon.json",
-            "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
-        },
-        "assetBundlePatterns": ["**/*"],
-        "ios": {
-            "supportsTablet": true
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
-                "backgroundColor": "#ffffff"
-            },
-            "package": "com.amit07.scoreroster",
-            "config": {
-                "googleFonts": [
-                  {
-                    "family": "Andika",
-                    "fonts": [
-                      {
-                        "asset": "assets/fonts/Andika-Regular.ttf",
-                        "style": "normal",
-                        "weight": "400"
-                      }
-                    ]
-                  }
-                ]
-              }
-        },
-        "web": {
-            "favicon": "./assets/favicon.png"
-        },
-        "extra": {
-            "eas": {
-                "projectId": "a407e057-bc5f-4ec1-a463-f47ce513c791"
-            }
-        }
+  "expo": {
+    "name": "Task Buddy",
+    "slug": "TaskBuddy",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.amit07.scoreroster"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e3ba1d62-adcd-4e75-b7e2-6c2bffb93482"
+      }
     }
+  }
 }
