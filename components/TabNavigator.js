@@ -20,6 +20,7 @@ import {
 } from "../context/LoadingTaskContext";
 import { useCredentials } from "../context/CredentialsContext";
 import { CommonActions } from "@react-navigation/native";
+import { CompleteCountProvider } from "../context/CompeleteTask";
 
 const Tab = createBottomTabNavigator();
 
@@ -105,6 +106,7 @@ const TabNavigator = ({ navigation, route }) => {
 
     return (
         <LoadingProvider>
+        <CompleteCountProvider>
             <KeyboardAvoidingView
                 style={{ flex: 1 }}
                 behavior="height" // or "height" or "position"
@@ -193,6 +195,7 @@ const TabNavigator = ({ navigation, route }) => {
 
                 {isLoading ? <LoadingScreen /> : null}
             </KeyboardAvoidingView>
+        </CompleteCountProvider>
         </LoadingProvider>
     );
 };

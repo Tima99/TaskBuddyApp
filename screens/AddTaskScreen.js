@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-    View,
-    Text,
-    StyleSheet,
-    FlatList,
-} from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import TaskTitleInput from "../components/TaskTitle";
 import TaskDescriptionInput from "../components/TaskNarrative";
 import Congrats from "../components/Congrats";
@@ -18,7 +13,7 @@ import { useLoadingTodos } from "../context/LoadingTaskContext";
 function AddTaskScreen({ navigation }) {
     const [step, setStep] = useState(1);
     const [title, setTitle] = useState("");
-    const [ openForDelete, setOpenForDelete] = useState(null)
+    const [openForDelete, setOpenForDelete] = useState(null);
     const [description, setDescription] = useState("");
     const { todos, setTodos } = useLoadingTodos();
 
@@ -39,7 +34,12 @@ function AddTaskScreen({ navigation }) {
             setLoading(true);
 
             // const added_todos = await SecureStore.getItemAsync(STORE.TODO_LIST)
-            const newTodo = { id: Date.now(), title, description: data, isCompleted: false };
+            const newTodo = {
+                id: Date.now(),
+                title,
+                description: data,
+                isCompleted: false,
+            };
 
             const _todos = [];
 
@@ -62,41 +62,46 @@ function AddTaskScreen({ navigation }) {
         }
     };
 
-    async function DeleteTask(index){
-      try {
-        if(index < 0) throw new Error("index is undefined")
+    async function DeleteTask(index) {
+        try {
+            if (index < 0) throw new Error("index is undefined");
 
-         // index is index of deleted task
-        const tasks = [...todos] 
-        tasks.splice(-(index + 1), 1)
+            // index is index of deleted task
+            const tasks = [...todos];
+            tasks.splice(-(index + 1), 1);
 
-        setTodos([...tasks])
-  
-        await SecureStore.setItemAsync(STORE.TODO_LIST, JSON.stringify(tasks))
-      } catch (error) {
-        console.log(error)
-      }
-  
-  }
+            setTodos([...tasks]);
 
-  async function CompleteTask(index){
-    try {
-        if(index < 0) throw new Error("index is undefined")
+            await SecureStore.setItemAsync(
+                STORE.TODO_LIST,
+                JSON.stringify(tasks)
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-         // index is index of deleted task
-        const tasks = [...todos] 
-        tasks.at(-(index+1)).isCompleted = true
+    async function CompleteTask(index) {
+        try {
+            if (index < 0) throw new Error("index is undefined");
 
-        setTodos([...tasks])
-  
-        await SecureStore.setItemAsync(STORE.TODO_LIST, JSON.stringify(tasks))
-      } catch (error) {
-        console.log(error)
-      }
-  }
+            // index is index of deleted task
+            const tasks = [...todos];
+            tasks.at(-(index + 1)).isCompleted = true;
+
+            setTodos([...tasks]);
+
+            await SecureStore.setItemAsync(
+                STORE.TODO_LIST,
+                JSON.stringify(tasks)
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
-        <View>
+        <View style={{flex: 1}}>
             {step === 1 && (
                 <TaskTitleInput onNext={handleNext} cacheData={title} />
             )}
@@ -114,47 +119,53 @@ function AddTaskScreen({ navigation }) {
                 />
             )}
 
-            {/* show previous last one added todo here */}
-
-            {
-              todos.length > 0 && (
-                <View style={styles.lineContainer}>
-                  <View style={styles.line} />
-                  <Text style={styles.recentText}>Recents Added Task</Text>
-                  <View style={styles.line} />
-                </View>
-              )
-            }
-
-            {todos.length > 0 && (
-                <FlatList
-                    data={todos.slice(-3).reverse()}
-                    keyExtractor={(task) => task.id}
-                    renderItem={({ item: task , index}) => (
-                        <TaskCard 
-                          task={task} 
-                          openForDelete={openForDelete} 
-                          setIsOpenForDelete={setOpenForDelete}  
-                          index={index}
-                          onDelete= {DeleteTask}
-                          taskComplete={task.isCompleted}
-                        />
-                    )}
-                />
-            )}
-            {/* only show top 3 recent added task */}
-            {todos.length >= 3 && (
-                <View style={styles.lineContainer}>
-                    <View style={styles.line} />
-                    <Anchor
-                        fontSize={13}
-                        onPress={() => navigation.navigate("Tasks")}
-                    >
-                        View All
-                    </Anchor>
-                    <View style={styles.line} />
-                </View>
-            )}
+            <View style={styles.recentTasksWraper}>
+                {/* heading */}
+                {todos.length > 0 && (
+                    <View style={styles.lineContainer}>
+                        <View style={styles.line} />
+                        <Text style={styles.recentText}>
+                            Recents Added Task
+                        </Text>
+                        <View style={styles.line} />
+                    </View>
+                )}
+                {/* list recent tasks */}
+                {todos.length > 0 && (
+                    <FlatList
+                        data={todos.slice(-3).reverse().map(task => {
+                            const todo = {...task}
+                            todo.description = todo.description.length > 70 ? todo.description.slice(0, 70) + "..." : todo.description 
+                            return todo
+                        })}
+                        keyExtractor={(task) => task.id}
+                        renderItem={({ item: task, index }) => (
+                            <TaskCard
+                                task={task}
+                                openForDelete={openForDelete}
+                                setIsOpenForDelete={setOpenForDelete}
+                                index={index}
+                                onDelete={DeleteTask}
+                                taskComplete={task.isCompleted}
+                            />
+                        )}
+                        style={styles.recentTasksContainer}
+                    />
+                )}
+                {/* only show top 3 recent added task and than view all button*/}
+                {todos.length >= 3 && (
+                    <View style={{...styles.lineContainer, paddingBottom: 16 }}>
+                        <View style={styles.line} />
+                        <Anchor
+                            fontSize={13}
+                            onPress={() => navigation.navigate("Tasks")}
+                        >
+                            View All
+                        </Anchor>
+                        <View style={styles.line} />
+                    </View>
+                )}
+            </View>
         </View>
     );
 }
@@ -175,6 +186,13 @@ const styles = StyleSheet.create({
         fontFamily: "Andika",
         color: "#333",
     },
+    recentTasksWraper: {
+        flex: 1,
+        flexDirection: "column"
+    },
+    recentTasksContainer: {
+        maxHeight: 'auto'
+    }
 });
 
 export default AddTaskScreen;

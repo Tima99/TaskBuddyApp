@@ -4,7 +4,7 @@ import { useLoadingTodos } from "../context/LoadingTaskContext";
 import LottieAnim from "../components/LottieAnim";
 
 export default function IsTaskEmpty(WrapComponent, { completed }) {
-    return function () {
+    return function (props) {
         const { todos } = useLoadingTodos();
 
         return todos.filter(todo => (todo.isCompleted === completed) ).length <= 0 ? (
@@ -18,7 +18,7 @@ export default function IsTaskEmpty(WrapComponent, { completed }) {
                 />
             </View>
         ) : (
-            <WrapComponent />
+            <WrapComponent {...props} />
         );
     };
 }

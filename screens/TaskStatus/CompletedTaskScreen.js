@@ -1,18 +1,24 @@
 // CompletedTasksScreen.js
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import { useLoadingTodos } from "../../context/LoadingTaskContext";
 import TaskCard from "../../components/TaskCard";
 import * as SecureStore from "expo-secure-store";
 import STORE from "../../constants";
 import IsTaskEmpty from "../../shared/IsTaskEmpty";
+import { useCount } from "../../context/CompeleteTask";
 
 const CompletedTasksScreen = () => {
     const { todos, setTodos } = useLoadingTodos();
     const [ openForDelete, setOpenForDelete] = useState(null)
+    const { setCompleteTaskCount } = useCount()
 
     // Filter completed tasks based on your criteria
     const completedTasks = useMemo(() => todos.filter((task) => task.isCompleted), [todos]);
+
+    useEffect(() => {
+        setCompleteTaskCount(completedTasks.length)
+    }, [completedTasks])
 
     async function DeleteTask(index){
         const tasks = todos.filter((todo) => todo.id !== completedTasks[index].id)
@@ -47,7 +53,7 @@ const CompletedTasksScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 8,
+        // padding: 8,
     },
     title: {
         fontSize: 24,

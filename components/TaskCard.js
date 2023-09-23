@@ -6,26 +6,40 @@ import {
     Dimensions,
     Animated,
     Easing,
-    TouchableOpacity
+    TouchableOpacity,
 } from "react-native";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons"; // Import an icon library (you can use any icon library you prefer)
-import LottieAnim from "./LottieAnim"
+import LottieAnim from "./LottieAnim";
+import { useCount } from "../context/CompeleteTask";
 
 function isAsyncFunction(fn) {
-    return fn instanceof Object.getPrototypeOf(async function () {}).constructor;
+    return (
+        fn instanceof Object.getPrototypeOf(async function () {}).constructor
+    );
 }
 
-const TaskCard = ({ task , openForDelete, setIsOpenForDelete, onDelete, index, onStatusComplete, taskComplete }) => {
-    const swipeableRef                    = useRef(null);
-    const [animatedValue]                 = useState(new Animated.Value(0));
-    const [heightValue]                   = useState(new Animated.Value(0));
-    const [tapCount, setTapCount]         = useState(0);
-    const [screenWidth , setScreenWidth ] = useState(Dimensions.get("window").width)
+const TaskCard = ({
+    task,
+    openForDelete,
+    setIsOpenForDelete,
+    onDelete,
+    index,
+    onStatusComplete,
+    taskComplete,
+}) => {
+    const swipeableRef = useRef(null);
+    const [animatedValue] = useState(new Animated.Value(0));
+    const [heightValue] = useState(new Animated.Value(0));
+    const [tapCount, setTapCount] = useState(0);
+    const [screenWidth, setScreenWidth] = useState(
+        Dimensions.get("window").width
+    );
+    const [rightThreshold, setRightThreshold]  = useState(20)
 
     const handleSwipeOpen = () => {
-        openForDelete?.current && openForDelete.current.close()
-        setIsOpenForDelete(swipeableRef)
+        openForDelete?.current && openForDelete.current.close();
+        setIsOpenForDelete(swipeableRef);
     };
 
     const animateCard = (isComplete) => {
@@ -35,25 +49,31 @@ const TaskCard = ({ task , openForDelete, setIsOpenForDelete, onDelete, index, o
                 toValue: 2,
                 duration: 300, // Adjust the duration as needed
                 useNativeDriver: false,
-                easing: Easing.linear
+                easing: Easing.linear,
             }),
             Animated.timing(heightValue, {
                 toValue: 1,
                 duration: 300, // Adjust the duration as needed
                 useNativeDriver: false,
-                easing: Easing.linear
+                easing: Easing.linear,
             }),
         ]).start(async () => {
             // after animation finish remove icon delete
-            swipeableRef?.current.close()
+            swipeableRef?.current.close();
 
-            if(typeof isComplete === "boolean"){
-                typeof onStatusComplete === "function" && (isAsyncFunction(onStatusComplete) ? await onStatusComplete(index) : onStatusComplete(index))
-                return
+            if (typeof isComplete === "boolean") {
+                typeof onStatusComplete === "function" &&
+                    (isAsyncFunction(onStatusComplete)
+                        ? await onStatusComplete(index)
+                        : onStatusComplete(index));
+                return;
             }
 
             // after animation finish delete task
-            typeof onDelete == "function" && (isAsyncFunction(onDelete) ? await onDelete(index) : onDelete(index))
+            typeof onDelete == "function" &&
+                (isAsyncFunction(onDelete)
+                    ? await onDelete(index)
+                    : onDelete(index));
         });
     };
     const handleCardPress = () => {
@@ -71,29 +91,33 @@ const TaskCard = ({ task , openForDelete, setIsOpenForDelete, onDelete, index, o
 
         // If it's a double-tap, trigger the delete animation
         if (tapCount === 1) {
-            if(!(typeof onStatusComplete === "function" )) return
-            setScreenWidth(prev => prev * -1)
+            if (!(typeof onStatusComplete === "function")) return;
+            setScreenWidth((prev) => prev * -1);
             animateCard(true);
         }
     };
 
-    
     return (
         <Swipeable
             ref={swipeableRef}
             friction={2}
-            rightThreshold={20}
+            rightThreshold={rightThreshold}
             leftThreshold={0}
             onActivated={handleSwipeOpen}
             renderRightActions={() => {
                 return (
-                    <RectButton style={styles.deleteButton} enabled={false} >
-                        <Feather name="trash-2" size={24} color="red" onPress={animateCard} />
+                    <RectButton style={styles.deleteButton} enabled={false}>
+                        <Feather
+                            name="trash-2"
+                            size={24}
+                            color="red"
+                            onPress={animateCard}
+                        />
                     </RectButton>
                 );
             }}
         >
-            <TouchableOpacity onPress={handleCardPress} activeOpacity={1} >
+            <TouchableOpacity onPress={handleCardPress} activeOpacity={1}>
                 <Animated.View
                     style={[
                         {
@@ -101,15 +125,15 @@ const TaskCard = ({ task , openForDelete, setIsOpenForDelete, onDelete, index, o
                                 {
                                     translateX: animatedValue.interpolate({
                                         inputRange: [0, 1],
-                                        outputRange: [0, - screenWidth ],
+                                        outputRange: [0, -screenWidth],
                                     }),
                                 },
                             ],
-                            height: heightValue.interpolate({ 
-                                inputRange: [0, 1], 
-                                outputRange: [-1, 0] 
-                              }),
-                            maxHeight: "auto"
+                            height: heightValue.interpolate({
+                                inputRange: [0, 1],
+                                outputRange: [-1, 0],
+                            }),
+                            maxHeight: "auto",
                         },
                     ]}
                 >
@@ -119,20 +143,20 @@ const TaskCard = ({ task , openForDelete, setIsOpenForDelete, onDelete, index, o
                             {task.description}
                         </Text>
 
-                        {taskComplete && 
-                        <View>
-                            <LottieAnim 
-                            source={require("../assets/anim-icons/task-completed.json")} // Replace with your animation file
-                            autoPlay
-                            loop={false}
-                            speed={1}
-                            style={styles.animation}
-                            ></LottieAnim>
-                        </View>
-                        }
+                        {taskComplete && (
+                            <View>
+                                <LottieAnim
+                                    source={require("../assets/anim-icons/task-completed.json")} // Replace with your animation file
+                                    autoPlay
+                                    loop={false}
+                                    speed={1}
+                                    style={styles.animation}
+                                ></LottieAnim>
+                            </View>
+                        )}
                     </View>
                 </Animated.View>
-            </ TouchableOpacity>
+            </TouchableOpacity>
         </Swipeable>
     );
 };
@@ -142,11 +166,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#ccc",
         borderRadius: 8,
-        padding: 16,
+        padding: 14,
+        paddingHorizontal: 16,
         margin: 8,
         zIndex: 999,
         backgroundColor: "#fff",
-        position: "relative"
+        position: "relative",
     },
     taskTitle: {
         fontFamily: "AndikaBold",
@@ -162,7 +187,7 @@ const styles = StyleSheet.create({
         padding: 16,
         zIndex: 0,
         paddingLeft: 15,
-        paddingRight: 26
+        paddingRight: 26,
     },
 
     animation: {
@@ -170,8 +195,8 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 0,
         right: 0,
-        transform: [{ scale: 0.6 }, { translateX: 20}, { translateY: -90}],
-    }
+        transform: [{ scale: 0.6 }, { translateX: 20 }, { translateY: -105 }],
+    },
 });
 
 export default TaskCard;
